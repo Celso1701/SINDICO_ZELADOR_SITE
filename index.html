@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Síndico e Zelador — app para a rotina do condomínio</title>
+<meta name="description" content="App para a rotina do condomínio: síndico, zelador e presidente com checklists, ronda por QR code, tarefas, vistorias, vencimentos e financeiro. Funciona sem internet. Teste grátis por 30 dias.">
+<meta name="theme-color" content="#2563EB">
+<link rel="canonical" href="https://sindicoezelador.com.br/">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Síndico e Zelador">
+<meta property="og:title" content="Síndico e Zelador — a rotina do condomínio no celular">
+<meta property="og:description" content="App para a rotina do condomínio: síndico, zelador e presidente com checklists, ronda por QR code, tarefas, vistorias, vencimentos e financeiro. Funciona sem internet. Teste grátis por 30 dias.">
+<meta property="og:url" content="https://sindicoezelador.com.br/">
+<meta property="og:image" content="https://sindicoezelador.com.br/img/sindico-inicio.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>img{max-width:100%}[hidden]{display:none!important}</style>
+<style>
+/* Layout: hero ilustrado com cena de condomínio, para quem é, personas, galeria de telas, módulos, fluxo, offline, planos, instalação */
+:root{
+  --bg:#F4F6FC; --surface:#FFFFFF; --ink:#16233B; --muted:#56657F; --line:#E1E7F3;
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-soft:#E8EEFF; --blue-deep:#1E3A8A;
+  --orange:#D9660A; --orange-soft:#FFF0E0; --orange-mid:#FFB067;
+  --green:#15803D; --green-soft:#E7F5EC; --green-mid:#6FCF97;
+  --on-blue:#FFFFFF; --band:#16307A; --on-band:#FFFFFF; --on-band-muted:#C3D0F5;
+  --sky:#DCE7FF; --sun:#FFD58A; --win:#FFFFFF; --win-on:#FFD88A;
+  --font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1526; --surface:#16203A; --ink:#E8EEFB; --muted:#9AA9C7; --line:#26334F;
+  --blue:#6E97FF; --blue-d:#4F7DF5; --blue-soft:#1B2A52; --blue-deep:#3B5BB5;
+  --orange:#FFA04D; --orange-soft:#3A2A1A; --orange-mid:#C9742A;
+  --green:#4ADE80; --green-soft:#16301F; --green-mid:#2F8F5B;
+  --on-blue:#0E1526; --band:#0A1840; --on-band:#F2F5FF; --on-band-muted:#9FB2E6;
+  --sky:#17254A; --sun:#C9923A; --win:#2A3A66; --win-on:#FFD88A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1526; --surface:#16203A; --ink:#E8EEFB; --muted:#9AA9C7; --line:#26334F;
+  --blue:#6E97FF; --blue-d:#4F7DF5; --blue-soft:#1B2A52; --blue-deep:#3B5BB5;
+  --orange:#FFA04D; --orange-soft:#3A2A1A; --orange-mid:#C9742A;
+  --green:#4ADE80; --green-soft:#16301F; --green-mid:#2F8F5B;
+  --on-blue:#0E1526; --band:#0A1840; --on-band:#F2F5FF; --on-band-muted:#9FB2E6;
+  --sky:#17254A; --sun:#C9923A; --win:#2A3A66; --win-on:#FFD88A; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6}
+.wrap,.band-in{max-width:1120px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+h1,h2,h3{text-wrap:balance;letter-spacing:-.02em;line-height:1.12;margin:0}
+p{margin:0}
+svg{display:block;max-width:100%;height:auto}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:8px}
+.eyebrow{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--blue)}
+section{padding-block:64px}
+section h2{font-size:clamp(26px,3.6vw,38px);font-weight:800;margin-top:10px}
+.sub{color:var(--muted);max-width:62ch;margin-top:12px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;background:var(--blue);color:var(--on-blue);border:0;cursor:pointer;font-family:inherit;text-align:center}
+.btn:hover{background:var(--blue-d)}
+.btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--blue)}
+.btn.pro{background:var(--orange);color:#fff}
+.btn.pro:hover{filter:brightness(.93)}
+.btn.sm{padding:9px 16px;font-size:14px}
+.btn.wide{width:100%}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;text-decoration:none}
+.logo{width:32px;height:32px;border-radius:9px;background:var(--blue);display:grid;place-items:center;color:var(--on-blue)}
+.logo svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.top nav{display:flex;gap:20px;font-size:14px;font-weight:600;color:var(--muted)}
+.top nav a{text-decoration:none}.top nav a:hover{color:var(--ink)}
+.top .acts{display:flex;gap:8px}
+
+/* hero */
+.hero{padding-block:48px 56px;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.hero>*{min-width:0}
+.hero h1{font-size:clamp(34px,5.2vw,54px);font-weight:800;margin-top:14px}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero h1 em.z{color:var(--orange)}
+.lead{font-size:18px;color:var(--muted);max-width:52ch;margin-top:18px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.cta-note{font-size:13px;color:var(--muted);margin-top:12px;max-width:52ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;padding:0;list-style:none}
+.chips li{font-size:13px;font-weight:600;padding:6px 12px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.stage{position:relative}
+.scene{width:100%;border-radius:28px;background:var(--sky);border:1px solid var(--line);overflow:hidden}
+.stage .shot-float{position:absolute;left:-10px;bottom:-28px;width:30%;min-width:112px}
+.shot{margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 22px 44px -22px rgba(20,40,110,.5)}
+.shot img{display:block;width:100%;height:auto}
+
+/* audience */
+.aud{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+.aud article{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.aud .art{background:var(--sky);border-bottom:1px solid var(--line)}
+.aud .tx{padding:20px}
+.aud h3{font-size:20px}
+.aud p{font-size:14.5px;color:var(--muted);margin-top:8px}
+.aud ul{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:14px;font-weight:600}
+.aud li{display:flex;gap:8px}
+.aud li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:9px;flex:none}
+
+/* personas */
+.pers{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
+.pers>*{min-width:0}
+.pcard{border-radius:22px;padding:24px;display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center;border:1px solid var(--line)}
+.pcard.s{background:var(--blue-soft)}
+.pcard.z{background:var(--orange-soft)}
+.pcard h3{font-size:22px}
+.pcard p{font-size:14.5px;color:var(--muted);margin-top:6px}
+.pcard ul{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:14px;font-weight:600}
+.pcard li::before{content:"✓ ";color:var(--blue)}
+.pcard.z li::before{color:var(--orange)}
+.pres{margin-top:16px;border:1px dashed var(--line);border-radius:16px;padding:16px 20px;display:flex;gap:14px;align-items:center;background:var(--green-soft)}
+.pres b{display:block}
+.pres span{font-size:14px;color:var(--muted)}
+.pres svg{width:44px;flex:none}
+
+/* gallery */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tab{font-family:inherit;font-size:14px;font-weight:700;padding:9px 16px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--blue);color:var(--on-blue);border-color:transparent}
+.gal-wrap{margin-top:22px;display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 20px;-webkit-overflow-scrolling:touch}
+.gal-wrap figure{flex:0 0 min(240px,70vw);scroll-snap-align:start;margin:0}
+.gal-wrap figcaption{margin-top:12px}
+.gal-wrap figcaption b{display:block;font-size:15px}
+.gal-wrap figcaption span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:99px;margin-bottom:8px;background:var(--blue-soft);color:var(--blue)}
+.tag.z{background:var(--orange-soft);color:var(--orange)}
+.tag.g{background:var(--green-soft);color:var(--green)}
+.note{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* modules */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:30px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h3{font-size:17px;margin-top:12px}
+.card p{font-size:14px;color:var(--muted);margin-top:6px}
+.ico{width:40px;height:40px;border-radius:11px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center}
+.ico svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:34px;list-style:none;padding:0;counter-reset:s}
+.flow li{position:relative;padding:0 18px 0 0;counter-increment:s}
+.flow li::before{content:counter(s);width:34px;height:34px;border-radius:50%;background:var(--blue);color:var(--on-blue);display:grid;place-items:center;font-family:var(--mono);font-size:14px;margin-bottom:14px}
+.flow li:not(:last-child)::after{content:"";position:absolute;top:17px;left:44px;right:10px;height:2px;background:var(--line)}
+.flow b{display:block;font-size:16px}
+.flow span{display:block;font-size:14px;color:var(--muted);margin-top:4px}
+
+/* offline band */
+.band{background:var(--band);color:var(--on-band)}
+.off{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.off>*{min-width:0}
+.band h2{color:var(--on-band)}
+.band p{color:var(--on-band-muted);margin-top:14px;max-width:56ch}
+.facts{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.facts li{border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--on-band)}
+.facts small{display:block;font-weight:400;color:var(--on-band-muted);font-size:13px;margin-top:2px}
+
+/* plans */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px;align-items:stretch}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:16px}
+.plan.pro{border:2px solid var(--orange)}
+.plan h3{font-size:24px}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--blue-soft);color:var(--blue);margin-bottom:10px}
+.plan.pro .badge{background:var(--orange-soft);color:var(--orange)}
+.price{font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.price small{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:0}
+.plan ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:15px;flex:1}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"✓";font-weight:800;color:var(--green);flex:none}
+.plan .fine{font-size:13px;color:var(--muted)}
+.soon{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.soon span{padding:4px 10px;border:1px dashed var(--line);border-radius:99px}
+.ph{font-family:var(--mono);font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:2px 8px;user-select:all}
+
+/* install */
+.inst{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+.inst>*{min-width:0}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.step h3{font-size:18px}
+.step ol{margin:12px 0 0;padding-left:20px;display:grid;gap:8px;font-size:15px;color:var(--muted)}
+.step ol b{color:var(--ink)}
+.faq{margin-top:34px;display:grid;gap:10px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.faq summary{font-weight:700;cursor:pointer}
+.faq p{margin-top:8px;font-size:15px;color:var(--muted)}
+
+.final{text-align:left}
+footer{padding-block:40px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.mono{font-family:var(--mono);font-size:13px}
+
+@media (max-width:900px){
+  .top nav{display:none}
+  .hero,.off,.pers,.plans,.inst{grid-template-columns:1fr}
+  .aud{grid-template-columns:1fr}
+  .hero{padding-block:32px 48px;gap:34px}
+  .flow{grid-template-columns:1fr;gap:22px}
+  .flow li{padding:0 0 0 50px}
+  .flow li::before{position:absolute;left:0;top:0;margin:0}
+  .flow li:not(:last-child)::after{top:40px;left:16px;right:auto;width:2px;height:calc(100% - 18px)}
+  section{padding-block:44px}
+  .stage .shot-float{left:6px}
+}
+@media (max-width:520px){
+  .pcard{grid-template-columns:1fr}
+  .pcard svg{max-width:150px}
+  .top .btn.ghost{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* v1.02 */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.stat b{display:block;font-size:26px;letter-spacing:-.02em;line-height:1.1}
+.stat span{display:block;font-size:13px;color:var(--muted);margin-top:4px}
+.rtabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.rtab{font-family:inherit;font-size:15px;font-weight:700;padding:10px 18px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.rtab[aria-selected="true"]{color:#fff;border-color:transparent}
+.rtab[data-p="sindico"][aria-selected="true"]{background:#2563EB}
+.rtab[data-p="zelador"][aria-selected="true"]{background:#C9590A}
+.rtab[data-p="presidente"][aria-selected="true"]{background:#15803D}
+.rpanel{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px}
+.rpanel h3{font-size:20px}
+.rpanel>p{color:var(--muted);font-size:14.5px;margin-top:6px}
+.rcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px 28px;margin-top:20px}
+.rcol h4{margin:0 0 8px;font-size:12px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tone)}
+.rcol ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.rcol li{font-size:14px;display:flex;gap:9px}
+.rcol li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--tone);margin-top:8px;flex:none}
+.rpanel[data-p="sindico"]{--tone:var(--blue)}
+.rpanel[data-p="zelador"]{--tone:var(--orange)}
+.rpanel[data-p="presidente"]{--tone:var(--green)}
+.week{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:22px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+.day b{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.day span{display:block;font-size:14px;margin-top:6px}
+.two{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;margin-top:28px}
+.two>*{min-width:0}
+.mapbox{background:var(--sky);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.checks{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.checks li{display:flex;gap:12px;font-size:15px}
+.checks li b{display:block}
+.checks li span{color:var(--muted);font-size:14px}
+.checks i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--orange-soft);color:var(--orange);display:grid;place-items:center;font-style:normal;font-family:var(--mono);font-size:13px;font-weight:700}
+.pack{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.pack span{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:9px 14px;border-radius:99px;background:var(--surface);border:1px solid var(--line)}
+.pack svg{width:18px;height:18px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.duoimg{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:440px;margin-inline:auto}
+.duoimg .b{margin-top:36px}
+.tut{display:grid;grid-template-columns:.7fr 1.3fr;gap:36px;align-items:center;margin-top:28px}
+.tut>*{min-width:0}
+.tut .shot{max-width:280px;margin-inline:auto}
+.tut ul{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:15px}
+.tut li{display:flex;gap:10px}
+.tut li::before{content:"✓";font-weight:800;color:var(--green);flex:none}
+.exch{background:var(--surface);border:1px solid var(--line);border-radius:22px;margin-top:30px;overflow:hidden}
+.sticky-cta{display:none}
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .week{grid-template-columns:1fr 1fr}
+  .two,.tut{grid-template-columns:1fr}
+}
+@media (max-width:700px){
+  body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+  .sticky-cta{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:6;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+  .sticky-cta .btn{flex:1;padding:12px 10px;font-size:14px}
+}
+@media (max-width:420px){.stats{grid-template-columns:1fr 1fr}.week{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#topo">
+      <span class="logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg></span>
+      Síndico e Zelador
+    </a>
+    <nav aria-label="Seções">
+      <a href="#para-quem">Para quem</a><a href="#rotinas">Rotinas</a><a href="#ronda">Ronda</a><a href="#telas">Telas</a><a href="#modulos">Recursos</a><a href="#planos">Planos</a><a href="#instalar">Instalar</a>
+    </nav>
+    <div class="acts">
+      <a class="btn ghost sm" href="#planos">Plano Pro</a>
+      <a class="btn sm" href="https://app.sindicoezelador.com.br/">Instalar grátis</a>
+    </div>
+  </div>
+</header>
+
+<main id="topo">
+  <!-- HERO -->
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow">App para condomínios de prédios e de casas</div>
+      <h1>A rotina do condomínio, do <em>síndico</em> ao <em class="z">zelador</em>, no celular.</h1>
+      <p class="lead">O síndico passa as tarefas, o zelador cumpre com foto e devolve o comprovante. Rondas por QR code, vistorias, vencimentos, plantão e cobrança de inadimplentes ficam no aparelho, mesmo sem sinal.</p>
+      <div class="cta">
+        <a class="btn" href="https://app.sindicoezelador.com.br/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Instalar grátis por 30 dias</a>
+        <a class="btn pro" href="#planos">Conhecer o Pro</a>
+      </div>
+      <p class="cta-note">No teste de 30 dias todas as funções do Pro ficam liberadas. Você instala pela tela inicial do celular, sem loja de aplicativos.</p>
+      <ul class="chips">
+        <li>Funciona sem internet</li><li>Dados no seu aparelho</li><li>Tutorial guiado</li>
+      </ul>
+    </div>
+
+    <div class="stage">
+      <svg class="scene" viewBox="0 0 600 420" role="img" aria-label="Ilustração de um condomínio com dois prédios, três casas, árvores e a portaria">
+        <circle cx="508" cy="74" r="34" fill="var(--sun)"/>
+        <g fill="var(--surface)" opacity=".85"><ellipse cx="120" cy="64" rx="46" ry="14"/><ellipse cx="150" cy="54" rx="30" ry="12"/><ellipse cx="380" cy="104" rx="40" ry="12"/></g>
+        <!-- torre de trás -->
+        <rect x="52" y="110" width="118" height="260" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+        <g fill="var(--win)" stroke="var(--blue)" stroke-width="1.2">
+          <rect x="68" y="130" width="22" height="18"/><rect x="104" y="130" width="22" height="18"/><rect x="140" y="130" width="22" height="18"/>
+          <rect x="68" y="166" width="22" height="18"/><rect x="104" y="166" width="22" height="18" fill="var(--win-on)"/><rect x="140" y="166" width="22" height="18"/>
+          <rect x="68" y="202" width="22" height="18"/><rect x="104" y="202" width="22" height="18"/><rect x="140" y="202" width="22" height="18" fill="var(--win-on)"/>
+          <rect x="68" y="238" width="22" height="18" fill="var(--win-on)"/><rect x="104" y="238" width="22" height="18"/><rect x="140" y="238" width="22" height="18"/>
+          <rect x="68" y="274" width="22" height="18"/><rect x="104" y="274" width="22" height="18"/><rect x="140" y="274" width="22" height="18" fill="var(--win-on)"/>
+        </g>
+        <!-- torre da frente -->
+        <rect x="186" y="50" width="136" height="320" fill="var(--blue)"/>
+        <rect x="180" y="44" width="148" height="10" fill="var(--blue-deep)"/>
+        <g fill="var(--win)" opacity=".92">
+          <rect x="202" y="72" width="24" height="20"/><rect x="242" y="72" width="24" height="20" fill="var(--win-on)"/><rect x="282" y="72" width="24" height="20"/>
+          <rect x="202" y="110" width="24" height="20"/><rect x="242" y="110" width="24" height="20"/><rect x="282" y="110" width="24" height="20" fill="var(--win-on)"/>
+          <rect x="202" y="148" width="24" height="20" fill="var(--win-on)"/><rect x="242" y="148" width="24" height="20"/><rect x="282" y="148" width="24" height="20"/>
+          <rect x="202" y="186" width="24" height="20"/><rect x="242" y="186" width="24" height="20" fill="var(--win-on)"/><rect x="282" y="186" width="24" height="20"/>
+          <rect x="202" y="224" width="24" height="20"/><rect x="242" y="224" width="24" height="20"/><rect x="282" y="224" width="24" height="20" fill="var(--win-on)"/>
+          <rect x="202" y="262" width="24" height="20" fill="var(--win-on)"/><rect x="242" y="262" width="24" height="20"/><rect x="282" y="262" width="24" height="20"/>
+        </g>
+        <rect x="238" y="316" width="32" height="54" rx="3" fill="var(--blue-deep)"/>
+        <rect x="244" y="324" width="20" height="46" fill="var(--win)" opacity=".35"/>
+        <!-- placa QR -->
+        <rect x="286" y="326" width="24" height="24" rx="3" fill="var(--surface)" stroke="var(--blue-deep)" stroke-width="1.5"/>
+        <g fill="var(--ink)"><rect x="290" y="330" width="6" height="6"/><rect x="300" y="330" width="6" height="6"/><rect x="290" y="340" width="6" height="6"/><rect x="300" y="341" width="3" height="3"/></g>
+        <!-- casas -->
+        <g>
+          <rect x="350" y="296" width="76" height="74" fill="var(--orange-soft)" stroke="var(--orange)" stroke-width="2"/>
+          <polygon points="342,298 388,258 434,298" fill="var(--orange)"/>
+          <rect x="378" y="326" width="22" height="44" rx="2" fill="var(--orange-mid)"/>
+          <rect x="358" y="312" width="14" height="14" fill="var(--win)" stroke="var(--orange)" stroke-width="1.2"/>
+          <rect x="404" y="312" width="14" height="14" fill="var(--win-on)" stroke="var(--orange)" stroke-width="1.2"/>
+        </g>
+        <g>
+          <rect x="446" y="308" width="64" height="62" fill="var(--green-soft)" stroke="var(--green)" stroke-width="2"/>
+          <polygon points="438,310 478,276 518,310" fill="var(--green)"/>
+          <rect x="468" y="334" width="20" height="36" rx="2" fill="var(--green-mid)"/>
+          <rect x="452" y="320" width="12" height="12" fill="var(--win-on)" stroke="var(--green)" stroke-width="1.2"/>
+          <rect x="492" y="320" width="12" height="12" fill="var(--win)" stroke="var(--green)" stroke-width="1.2"/>
+        </g>
+        <g>
+          <rect x="526" y="314" width="56" height="56" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+          <polygon points="518,316 554,286 590,316" fill="var(--blue-deep)"/>
+          <rect x="544" y="338" width="18" height="32" rx="2" fill="var(--blue)"/>
+        </g>
+        <!-- árvores -->
+        <g><rect x="22" y="316" width="8" height="54" fill="var(--green)"/><circle cx="26" cy="304" r="24" fill="var(--green-mid)"/></g>
+        <g><rect x="332" y="338" width="6" height="32" fill="var(--green)"/><circle cx="335" cy="328" r="16" fill="var(--green-mid)"/></g>
+        <!-- chão -->
+        <rect x="0" y="370" width="600" height="50" fill="var(--line)"/>
+        <rect x="0" y="388" width="600" height="4" fill="var(--surface)" opacity=".7"/>
+        <!-- portão -->
+        <g stroke="var(--ink)" stroke-width="2" opacity=".55"><path d="M8 370v-30M8 350h34M8 360h34M42 370v-30M20 370v-20M30 370v-20"/></g>
+      </svg>
+      <figure class="shot shot-float"><img src="img/ronda-qr.jpg" width="520" height="1069" alt="Tela de pontos de ronda com leitura de QR code"></figure>
+    </div>
+  </div>
+
+  <!-- PARA QUEM -->
+  <section style="padding-block:8px 0">
+    <div class="wrap">
+      <div class="stats" aria-label="O app em números">
+        <div class="stat"><b>30 dias</b><span>de teste grátis com todas as funções do Pro</span></div>
+        <div class="stat"><b>3 perfis</b><span>síndico, zelador e presidente da associação</span></div>
+        <div class="stat"><b>61 rotinas</b><span>já cadastradas no condomínio de exemplo</span></div>
+        <div class="stat"><b>9 pacotes</b><span>de checklists prontos para importar</span></div>
+        <div class="stat"><b>48 passos</b><span>de tutorial guiado com dados fictícios</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="para-quem" style="padding-top:24px">
+    <div class="wrap">
+      <div class="eyebrow">Para quem</div>
+      <h2>Prédio, condomínio de casas ou associação de moradores.</h2>
+      <p class="sub">A unidade pode ser apartamento, casa ou lote. Locais de ronda, espaços e vistorias vêm do seu cadastro, então o app se ajusta ao seu condomínio.</p>
+      <div class="aud">
+        <article>
+          <div class="art"><svg viewBox="0 0 320 170" role="img" aria-label="Ilustração de um prédio de apartamentos com garagem"><rect x="100" y="14" width="120" height="136" fill="var(--blue)"/><g fill="var(--win)" opacity=".92"><rect x="114" y="28" width="20" height="16"/><rect x="150" y="28" width="20" height="16" fill="var(--win-on)"/><rect x="186" y="28" width="20" height="16"/><rect x="114" y="58" width="20" height="16"/><rect x="150" y="58" width="20" height="16"/><rect x="186" y="58" width="20" height="16" fill="var(--win-on)"/><rect x="114" y="88" width="20" height="16" fill="var(--win-on)"/><rect x="150" y="88" width="20" height="16"/><rect x="186" y="88" width="20" height="16"/></g><rect x="148" y="116" width="24" height="34" rx="2" fill="var(--blue-deep)"/><rect x="30" y="96" width="62" height="54" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/><rect x="40" y="118" width="42" height="32" fill="var(--blue-deep)" opacity=".5"/><text x="61" y="112" font-size="11" text-anchor="middle" fill="var(--blue)" font-family="var(--mono)">GARAGEM</text><rect x="0" y="150" width="320" height="20" fill="var(--line)"/><g><rect x="244" y="104" width="6" height="46" fill="var(--green)"/><circle cx="247" cy="96" r="20" fill="var(--green-mid)"/></g></svg></div>
+          <div class="tx"><h3>Condomínio de prédios</h3><p>Elevadores, casa de máquinas, garagem e salão de festas entram nas rondas e vistorias.</p>
+            <ul><li>Ronda por QR code em cada ponto</li><li>Reservas do salão e da churrasqueira</li><li>Encomendas e chaves na portaria</li></ul></div>
+        </article>
+        <article>
+          <div class="art"><svg viewBox="0 0 320 170" role="img" aria-label="Ilustração de três casas em uma rua com portão de entrada"><g><rect x="30" y="94" width="70" height="56" fill="var(--orange-soft)" stroke="var(--orange)" stroke-width="2"/><polygon points="22,96 65,60 108,96" fill="var(--orange)"/><rect x="56" y="118" width="18" height="32" rx="2" fill="var(--orange-mid)"/></g><g><rect x="124" y="104" width="72" height="46" fill="var(--green-soft)" stroke="var(--green)" stroke-width="2"/><polygon points="116,106 160,72 204,106" fill="var(--green)"/><rect x="150" y="124" width="18" height="26" rx="2" fill="var(--green-mid)"/></g><g><rect x="220" y="94" width="70" height="56" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/><polygon points="212,96 255,60 298,96" fill="var(--blue-deep)"/><rect x="246" y="118" width="18" height="32" rx="2" fill="var(--blue)"/></g><g><rect x="8" y="124" width="6" height="26" fill="var(--green)"/><circle cx="11" cy="116" r="12" fill="var(--green-mid)"/></g><rect x="0" y="150" width="320" height="20" fill="var(--line)"/><path d="M0 160h320" stroke="var(--surface)" stroke-width="3" stroke-dasharray="14 10"/></svg></div>
+          <div class="tx"><h3>Condomínio de casas</h3><p>Portaria, portões, vias internas e áreas de lazer ganham a mesma organização.</p>
+            <ul><li>Portões e iluminação na ronda</li><li>Visitantes e prestadores na entrada</li><li>Obras, mudanças e consumo do hidrômetro geral</li></ul></div>
+        </article>
+        <article>
+          <div class="art"><svg viewBox="0 0 320 170" role="img" aria-label="Ilustração de uma mesa de reunião com documento de ata"><rect x="0" y="130" width="320" height="40" fill="var(--line)"/><rect x="60" y="100" width="200" height="14" rx="5" fill="var(--blue-deep)"/><rect x="82" y="114" width="8" height="40" fill="var(--blue-deep)"/><rect x="230" y="114" width="8" height="40" fill="var(--blue-deep)"/><g><rect x="118" y="36" width="84" height="64" rx="6" fill="var(--surface)" stroke="var(--blue)" stroke-width="2"/><rect x="130" y="50" width="60" height="5" rx="2" fill="var(--blue)"/><rect x="130" y="62" width="48" height="4" rx="2" fill="var(--line)"/><rect x="130" y="72" width="54" height="4" rx="2" fill="var(--line)"/><path d="M132 88l6 6 12-14" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g><circle cx="86" cy="76" r="14" fill="var(--orange-mid)"/><rect x="72" y="92" width="28" height="10" rx="5" fill="var(--orange)"/><circle cx="234" cy="76" r="14" fill="var(--green-mid)"/><rect x="220" y="92" width="28" height="10" rx="5" fill="var(--green)"/></svg></div>
+          <div class="tx"><h3>Associação de moradores</h3><p>O presidente tem perfil próprio, com mandato, diretoria e as ferramentas de gestão.</p>
+            <ul><li>Pauta, edital e lista de presença em PDF</li><li>Reuniões, atas e enquetes</li><li>Prestação de contas para os moradores</li></ul></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONAS -->
+  <section id="perfis" style="padding-top:8px">
+    <div class="wrap">
+      <div class="eyebrow">Dois lados da mesma rotina</div>
+      <h2>O síndico organiza. O zelador executa.</h2>
+      <p class="sub">Cada função tem sua cor, suas telas e sua senha. Na tela inicial você escolhe quem usa o aparelho.</p>
+      <div class="pers">
+        <article class="pcard s">
+          <svg viewBox="0 0 150 190" role="img" aria-label="Ilustração do síndico com prancheta"><rect x="0" y="176" width="150" height="14" rx="7" fill="var(--blue)" opacity=".15"/><path d="M26 176c0-40 20-62 49-62s49 22 49 62z" fill="var(--blue)"/><path d="M60 116l15 28 15-28z" fill="#fff"/><path d="M72 124h6l3 20-6 6-6-6z" fill="var(--orange)"/><circle cx="75" cy="74" r="28" fill="#E9B98F"/><path d="M47 70c0-22 14-34 29-34s28 11 28 30c-8-8-20-13-34-12-9 1-17 6-23 16z" fill="#3B2A22"/><circle cx="66" cy="76" r="2.6" fill="#2B1B14"/><circle cx="85" cy="76" r="2.6" fill="#2B1B14"/><path d="M68 88q7 6 14 0" fill="none" stroke="#2B1B14" stroke-width="2.4" stroke-linecap="round"/><g transform="rotate(-8 112 140)"><rect x="92" y="112" width="46" height="60" rx="6" fill="var(--surface)" stroke="var(--blue-deep)" stroke-width="2.5"/><rect x="106" y="106" width="18" height="10" rx="3" fill="var(--blue-deep)"/><path d="M100 128l5 5 8-9M100 146l5 5 8-9" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="118" y="128" width="14" height="4" rx="2" fill="var(--line)"/><rect x="118" y="146" width="14" height="4" rx="2" fill="var(--line)"/></g></svg>
+          <div><h3>Síndico</h3><p>Monta as rotinas, acompanha a execução e cuida da gestão.</p>
+            <ul><li>Tarefas com prazo e prioridade</li><li>Financeiro e saldo diário</li><li>Inadimplência, multas e prestação de contas</li><li>Vencimentos, obrigações e calendário anual</li></ul></div>
+        </article>
+        <article class="pcard z">
+          <svg viewBox="0 0 150 190" role="img" aria-label="Ilustração do zelador com chaveiro e lanterna"><rect x="0" y="176" width="150" height="14" rx="7" fill="var(--orange)" opacity=".18"/><path d="M26 176c0-40 20-62 49-62s49 22 49 62z" fill="var(--orange-mid)"/><path d="M52 118h46v58H52z" fill="var(--orange)" opacity=".0"/><rect x="62" y="134" width="26" height="6" rx="3" fill="#fff" opacity=".85"/><rect x="62" y="150" width="26" height="6" rx="3" fill="#fff" opacity=".85"/><circle cx="75" cy="74" r="28" fill="#C58A5F"/><path d="M44 66c2-24 18-30 31-30s29 6 31 30z" fill="var(--orange)"/><rect x="40" y="62" width="70" height="8" rx="4" fill="var(--orange)"/><path d="M104 66h20q4 0 4 5H104z" fill="var(--orange)"/><circle cx="66" cy="78" r="2.6" fill="#2B1B14"/><circle cx="85" cy="78" r="2.6" fill="#2B1B14"/><path d="M68 90q7 6 14 0" fill="none" stroke="#2B1B14" stroke-width="2.4" stroke-linecap="round"/><g><circle cx="28" cy="146" r="11" fill="none" stroke="var(--ink)" stroke-width="3" opacity=".7"/><rect x="22" y="156" width="6" height="22" rx="2" fill="var(--blue)"/><rect x="31" y="158" width="6" height="18" rx="2" fill="var(--orange)"/><rect x="13" y="158" width="6" height="16" rx="2" fill="var(--green)"/></g><g transform="rotate(20 120 148)"><rect x="110" y="130" width="16" height="42" rx="5" fill="var(--blue-deep)"/><polygon points="106,130 130,130 138,112 98,112" fill="var(--blue)"/><path d="M104 108l-10-14M118 106v-18M132 108l10-14" stroke="var(--sun)" stroke-width="3" stroke-linecap="round"/></g></svg>
+          <div><h3>Zelador</h3><p>Tem a rotina do dia na mão: o que fazer, onde passar e o que registrar.</p>
+            <ul><li>Checklist diário e inspeção matinal</li><li>Ronda lendo o QR de cada ponto</li><li>Encomendas, chaves e visitantes</li><li>Passagem de plantão com “Li e ciente”</li></ul></div>
+        </article>
+      </div>
+      <div class="pres">
+        <svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="var(--green-mid)"/><circle cx="22" cy="17" r="7" fill="var(--surface)"/><path d="M8 38c2-9 9-12 14-12s12 3 14 12z" fill="var(--surface)"/></svg>
+        <div><b>Presidente da associação</b><span>Perfil próprio, em verde, com mandato de datas, composição da diretoria e as mesmas ferramentas de gestão do síndico.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="rotinas" style="padding-top:8px">
+    <div class="wrap">
+      <div class="eyebrow">Rotinas prontas</div>
+      <h2>O que cada um faz, do dia ao ano.</h2>
+      <p class="sub">O app já vem com rotinas por frequência para cada função: diárias, semanais, mensais, semestrais, anuais e sob demanda. O síndico edita tudo em Rotinas › Gerenciar. Os exemplos abaixo vêm do condomínio de demonstração.</p>
+      <div class="rtabs" role="tablist" aria-label="Rotinas por função">
+        <button class="rtab" role="tab" data-p="sindico" aria-selected="true">Síndico · 22</button>
+        <button class="rtab" role="tab" data-p="zelador" aria-selected="false">Zelador · 31</button>
+        <button class="rtab" role="tab" data-p="presidente" aria-selected="false">Presidente · 12</button>
+      </div>
+      <div class="rpanel" id="rpanel" role="tabpanel" data-p="sindico"></div>
+
+      <h3 style="margin-top:44px;font-size:22px">Uma semana do síndico</h3>
+      <p class="sub" style="margin-top:6px">As rotinas semanais caem em dias fixos, e o app avisa o que está pendente.</p>
+      <div class="week">
+        <div class="day"><b>Segunda</b><span>Revisar tarefas abertas e ocorrências com o zelador</span></div>
+        <div class="day"><b>Terça</b><span>Vistoria presencial e conferência da equipe</span></div>
+        <div class="day"><b>Quarta</b><span>Aprovação de pagamentos com a administradora</span></div>
+        <div class="day"><b>Quinta</b><span>Cotação e compras: orçamentos de reparos e insumos</span></div>
+        <div class="day"><b>No mês</b><span>Manutenção preventiva (dia 8), prestação de contas (dia 10) e inadimplência (dia 12)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ronda" style="padding-top:8px">
+    <div class="wrap">
+      <div class="eyebrow">Ronda e vistoria</div>
+      <h2>Um QR code em cada ponto do condomínio.</h2>
+      <p class="sub">Você cadastra os pontos, imprime uma etiqueta para cada um e o celular do zelador registra a leitura na hora. Nada vem fixo no sistema: elevador, garagem, sauna ou portão, tudo sai do seu cadastro.</p>
+      <div class="two" style="align-items:start">
+        <div class="mapbox">
+          <svg viewBox="0 0 560 380" role="img" aria-label="Planta ilustrada de um condomínio com o trajeto da ronda e quatro pontos com QR code numerados">
+            <rect width="560" height="380" fill="var(--green-soft)"/>
+            <rect x="0" y="318" width="560" height="62" fill="var(--line)"/>
+            <path d="M0 349h560" stroke="var(--surface)" stroke-width="3" stroke-dasharray="16 12"/>
+            <rect x="40" y="40" width="150" height="96" rx="8" fill="var(--blue)"/><text x="115" y="94" text-anchor="middle" font-size="14" font-weight="700" fill="var(--on-blue)" font-family="var(--font)">Bloco A</text>
+            <rect x="214" y="40" width="150" height="96" rx="8" fill="var(--blue-deep)"/><text x="289" y="94" text-anchor="middle" font-size="14" font-weight="700" fill="#fff" font-family="var(--font)">Bloco B</text>
+            <rect x="40" y="164" width="96" height="62" rx="8" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/><text x="88" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" font-family="var(--font)">Garagem</text>
+            <rect x="162" y="164" width="102" height="62" rx="8" fill="var(--orange-soft)" stroke="var(--orange)" stroke-width="2"/><text x="213" y="190" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" font-family="var(--font)">Casa de</text><text x="213" y="206" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" font-family="var(--font)">máquinas</text>
+            <rect x="400" y="40" width="120" height="86" rx="40" fill="var(--sky)" stroke="var(--blue)" stroke-width="2"/><text x="460" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" font-family="var(--font)">Piscina</text>
+            <rect x="400" y="164" width="120" height="62" rx="8" fill="var(--surface)" stroke="var(--green)" stroke-width="2"/><text x="460" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" font-family="var(--font)">Salão de festas</text>
+            <rect x="256" y="278" width="70" height="30" rx="6" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5" opacity=".9"/><text x="291" y="298" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" font-family="var(--font)">Portaria</text>
+            <path d="M291 278 V150 M88 150 H460 M88 150 V164 M213 150 V164 M460 150 V164" fill="none" stroke="var(--orange)" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round" stroke-linejoin="round"/>
+            <g font-family="var(--mono)" font-size="13" font-weight="700" text-anchor="middle" fill="#fff">
+              <circle cx="291" cy="270" r="13" fill="var(--orange)"/><text x="291" y="275">1</text>
+              <circle cx="88" cy="164" r="13" fill="var(--orange)"/><text x="88" y="169">2</text>
+              <circle cx="213" cy="164" r="13" fill="var(--orange)"/><text x="213" y="169">3</text>
+              <circle cx="460" cy="164" r="13" fill="var(--orange)"/><text x="460" y="169">4</text>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <ol class="checks" style="list-style:none">
+            <li><i>1</i><div><b>Cadastre os pontos</b><span>Elevadores, garagem, casa de máquinas, portaria e o que mais você quiser, por bloco.</span></div></li>
+            <li><i>2</i><div><b>Imprima um QR por ponto</b><span>O app gera o PDF com as etiquetas para colar em cada local.</span></div></li>
+            <li><i>3</i><div><b>O zelador lê com a câmera</b><span>Cada leitura grava o horário e quem passou.</span></div></li>
+            <li><i>4</i><div><b>Veja o relatório de rondas</b><span>Por dia ou período, com o que ficou sem leitura e os locais com problema.</span></div></li>
+          </ol>
+          <div class="duoimg" style="margin-top:26px;max-width:100%;grid-template-columns:1fr 1fr">
+            <figure class="shot"><img src="img/ronda-qr.jpg" width="520" height="1069" alt="Tela de pontos de ronda" loading="lazy"></figure>
+            <figure class="shot b"><img src="img/vistoria.jpg" width="520" height="1069" alt="Tela de vistoria presencial" loading="lazy"></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="telas" style="padding-top:8px;padding-bottom:24px">
+    <div class="wrap">
+      <div class="eyebrow">Telas do app</div>
+      <h2>Veja as rotinas na tela do celular.</h2>
+      <p class="sub">Capturas do tutorial guiado, que usa um condomínio fictício. Arraste para o lado para ver todas.</p>
+      <div class="tabs" role="group" aria-label="Filtrar telas">
+        <button class="tab" data-f="todas" aria-pressed="true">Todas</button>
+        <button class="tab" data-f="zelador" aria-pressed="false">Zelador</button>
+        <button class="tab" data-f="sindico" aria-pressed="false">Síndico</button>
+        <button class="tab" data-f="gestao" aria-pressed="false">Gestão</button>
+        <button class="tab" data-f="portaria" aria-pressed="false">Portaria e moradores</button>
+      </div>
+      <div class="gal-wrap" id="gal" tabindex="0" aria-label="Galeria de telas do app"></div>
+      <p class="note">Nomes, valores e datas das telas são exemplos.</p>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <section id="modulos" style="padding-top:32px">
+    <div class="wrap">
+      <div class="eyebrow">Recursos</div>
+      <h2>O que o dia a dia do condomínio pede.</h2>
+      <p class="sub">Os boletos continuam com a administradora. O app cuida da rotina, do controle e dos relatórios.</p>
+      <div class="grid" id="grid"></div>
+      <p class="note">Datas de obrigações trabalhistas e fiscais e periodicidades de vencimentos são modelos editáveis. Confirme com seu contador e seu engenheiro.</p>
+    </div>
+  </section>
+
+  <!-- FLUXO -->
+  <section id="modulos2" style="padding-top:8px">
+    <div class="wrap">
+      <div class="eyebrow">Checklists prontos</div>
+      <h2>Nove pacotes para importar e usar no primeiro dia.</h2>
+      <p class="sub">Ao importar, as rotinas entram na lista do síndico e seguem para o zelador no próximo plano. Você também exporta os seus e compartilha com outro síndico por arquivo.</p>
+      <div class="pack" id="pack"></div>
+    </div>
+  </section>
+
+  <section id="fluxo" style="padding-top:8px">
+    <div class="wrap">
+      <div class="eyebrow">Síndico → zelador → síndico</div>
+      <h2>Da tarefa ao comprovante, em quatro passos.</h2>
+      <p class="sub">Os dois aparelhos se falam por arquivos de troca em PDF. Não precisa de servidor nem de cadastro online. Cada aparelho tem o seu ID, e você informa o ID do outro aparelho em Ajustes.</p>
+      <ol class="flow">
+        <li><b>O síndico cria as rotinas</b><span>Monta as tarefas e gera o plano em PDF.</span></li>
+        <li><b>O zelador importa</b><span>Abre o arquivo no celular dele e vê o que fazer hoje.</span></li>
+        <li><b>O zelador cumpre</b><span>Marca cada item e anexa a foto da execução.</span></li>
+        <li><b>O síndico confere</b><span>Importa o retorno e fica com o comprovante.</span></li>
+      </ol>
+      <div class="exch">
+        <svg viewBox="0 0 640 230" role="img" aria-label="Dois celulares trocando arquivos: o plano do síndico vai ao zelador e o retorno com fotos volta ao síndico">
+          <rect width="640" height="230" fill="var(--sky)"/>
+          <g><rect x="40" y="28" width="108" height="178" rx="16" fill="var(--surface)" stroke="var(--blue)" stroke-width="3"/><rect x="40" y="28" width="108" height="34" rx="14" fill="var(--blue)"/><text x="94" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--on-blue)" font-family="var(--font)">Síndico</text>
+            <g fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M58 86l5 5 9-10M58 118l5 5 9-10M58 150l5 5 9-10"/></g><g fill="var(--line)"><rect x="82" y="84" width="48" height="6" rx="3"/><rect x="82" y="116" width="40" height="6" rx="3"/><rect x="82" y="148" width="46" height="6" rx="3"/></g></g>
+          <g><rect x="492" y="28" width="108" height="178" rx="16" fill="var(--surface)" stroke="var(--orange)" stroke-width="3"/><rect x="492" y="28" width="108" height="34" rx="14" fill="var(--orange)"/><text x="546" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="var(--font)">Zelador</text>
+            <g fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M510 86l5 5 9-10M510 118l5 5 9-10"/></g><circle cx="517" cy="156" r="6" fill="none" stroke="var(--orange)" stroke-width="2.5"/><g fill="var(--line)"><rect x="534" y="84" width="48" height="6" rx="3"/><rect x="534" y="116" width="40" height="6" rx="3"/><rect x="534" y="154" width="46" height="6" rx="3"/></g></g>
+          <g><path d="M170 92h250" stroke="var(--blue)" stroke-width="3" stroke-dasharray="8 7" stroke-linecap="round"/><path d="M420 92l-12-9M420 92l-12 9" stroke="var(--blue)" stroke-width="3" stroke-linecap="round"/>
+            <rect x="262" y="58" width="42" height="52" rx="6" fill="var(--surface)" stroke="var(--blue)" stroke-width="2.5"/><text x="283" y="90" text-anchor="middle" font-size="13" font-weight="800" fill="var(--blue)" font-family="var(--mono)">PDF</text>
+            <text x="283" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="var(--font)">Plano de rotinas</text></g>
+          <g><path d="M470 148H220" stroke="var(--orange)" stroke-width="3" stroke-dasharray="8 7" stroke-linecap="round"/><path d="M220 148l12-9M220 148l12 9" stroke="var(--orange)" stroke-width="3" stroke-linecap="round"/>
+            <rect x="326" y="126" width="46" height="44" rx="6" fill="var(--surface)" stroke="var(--orange)" stroke-width="2.5"/><circle cx="349" cy="146" r="9" fill="none" stroke="var(--orange)" stroke-width="2.5"/><path d="M334 170h30" stroke="var(--orange)" stroke-width="0"/>
+            <text x="349" y="192" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="var(--font)">Retorno com fotos</text></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="tutorial" style="padding-top:8px">
+    <div class="wrap">
+      <div class="eyebrow">Aprenda fazendo</div>
+      <h2>Tutorial guiado, num condomínio de mentira.</h2>
+      <div class="tut">
+        <figure class="shot"><img src="img/tutorial.jpg" width="520" height="1072" alt="Tela do tutorial guiado do módulo Síndico" loading="lazy"></figure>
+        <div>
+          <p class="sub" style="margin-top:0">Na primeira abertura, o app oferece um tutorial com moradores, ocorrências, finanças e vistorias já preenchidos. Você pode tocar em tudo: nada é salvo e seus dados reais não mudam.</p>
+          <ul>
+            <li>48 passos para o módulo Síndico, com um botão “Aprender fazendo” em cada tela.</li>
+            <li>O botão Sair do tutorial fica sempre visível.</li>
+            <li>Também há um manual com exemplos fictícios, e o tutorial fica depois em Ajustes › Ajuda.</li>
+            <li>Cada novidade do app entra no tutorial, para ninguém ficar perdido.</li>
+          </ul>
+          <div class="cta"><a class="btn" href="https://app.sindicoezelador.com.br/">Experimentar o tutorial</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFLINE -->
+  <div class="band" id="offline">
+    <div class="band-in" style="padding-block:64px">
+      <div class="off">
+        <div>
+          <div class="eyebrow" style="color:var(--on-band-muted)">Seus dados, no seu aparelho</div>
+          <h2>O aplicativo pode trabalhar armazenando os dados sem internet.</h2>
+          <p>Os dados do condomínio ficam no celular de quem usa. O app não envia informação para servidores do fornecedor, e os dados pertencem ao condomínio.</p>
+        </div>
+        <ul class="facts">
+          <li>Rondas, vistorias e tarefas sem sinal<small>No subsolo, na casa de máquinas, onde for.</small></li>
+          <li>Senha por função<small>Síndico, zelador e presidente têm cada um a sua. O WhatsApp cadastrado recebe uma cópia, para você não perder o acesso.</small></li>
+          <li>Backup e troca de aparelho<small>Restaure o histórico no aparelho novo.</small></li>
+          <li>Dados pessoais protegidos<small>RG e CPF da diretoria são opcionais e ficam fora dos PDFs e dos arquivos de troca.</small></li>
+          <li>Tutorial guiado e manual<small>Com dados fictícios e botão para sair a qualquer momento.</small></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANOS -->
+  <section id="planos">
+    <div class="wrap">
+      <div class="eyebrow">Planos</div>
+      <h2>Comece grátis por 30 dias. Continue com o Pro.</h2>
+      <p class="sub">No teste, todas as funções do Pro ficam liberadas. Quando acabar, você assina o Pro para continuar usando.</p>
+      <div class="plans">
+        <article class="plan">
+          <div><span class="badge">Teste</span><h3>Grátis por 30 dias</h3></div>
+          <div class="price">R$ 0 <small>por 30 dias</small></div>
+          <ul>
+            <li>Todas as funções do Pro liberadas</li>
+            <li>Síndico, zelador e presidente</li>
+            <li>Tutorial guiado com dados fictícios</li>
+            <li>Funciona sem internet</li>
+          </ul>
+          <a class="btn wide" href="https://app.sindicoezelador.com.br/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Instalar a versão grátis</a>
+          <p class="fine">A senha é opcional durante o teste. Ao assinar o Pro ela passa a ser obrigatória.</p>
+        </article>
+        <article class="plan pro">
+          <div><span class="badge">Pro</span><h3>Síndico e Zelador Pro</h3></div>
+          <div class="price">R$ 90,00 <small>por 1 mês</small></div>
+          <div class="soon"><span>6 meses: em breve</span><span>12 meses: em breve</span></div>
+          <ul>
+            <li>Tudo o que o teste oferece, sem prazo de 30 dias</li>
+            <li>Código Pro gerado para o ID do seu aparelho</li>
+            <li>Assinatura e suporte pelo WhatsApp</li>
+          </ul>
+          <a class="btn pro wide" href="https://wa.me/5515998293087?text=Oi!%20Quero%20assinar%20o%20aplicativo%20S%C3%ADndico%20e%20Zelador%20Pro." target="_blank" rel="noopener">Assinar o Pro pelo WhatsApp</a>
+          <p class="fine">Valor de 1 mês em promoção por tempo limitado. WhatsApp: <span class="ph">(15) 99829-3087</span></p>
+        </article>
+      </div>
+      <p class="note" style="margin-top:14px">Como o Pro é liberado: no app, abra Assinar, copie o ID do aparelho e envie pelo WhatsApp. Você recebe um código que funciona só nesse aparelho.</p>
+    </div>
+  </section>
+
+  <!-- INSTALAR -->
+  <section id="instalar" style="padding-top:8px">
+    <div class="wrap">
+      <div class="eyebrow">Instalação</div>
+      <h2>Instale em um minuto, sem loja de aplicativos.</h2>
+      <p class="sub">O app é um site que se instala na tela inicial do celular e depois abre sem internet. Toque em Instalar a versão grátis, abra o app e siga o passo do seu aparelho.</p>
+      <div class="cta"><a class="btn" href="https://app.sindicoezelador.com.br/">Instalar grátis por 30 dias</a></div>
+      <div class="inst">
+        <article class="step"><h3>Android (Chrome)</h3>
+          <ol><li>Toque em <b>Instalar grátis por 30 dias</b> e abra o app.</li><li>Toque nos <b>três pontinhos</b> do Chrome.</li><li>Escolha <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.</li><li>Abra pelo ícone na tela inicial.</li></ol></article>
+        <article class="step"><h3>iPhone (Safari)</h3>
+          <ol><li>Toque em <b>Instalar grátis por 30 dias</b> e abra o app no <b>Safari</b>.</li><li>Toque no botão <b>Compartilhar</b>.</li><li>Escolha <b>Adicionar à Tela de Início</b>.</li><li>Abra pelo ícone na tela inicial.</li></ol></article>
+      </div>
+      <div class="faq">
+        <details><summary>Preciso de internet para usar?</summary><p>Não. Depois de instalado, o app trabalha com os dados guardados no aparelho. A internet só é usada para abrir o WhatsApp ou instalar.</p></details>
+        <details><summary>Zelador e síndico precisam instalar nos dois celulares?</summary><p>Sim, cada um no seu aparelho. Eles trocam as rotinas e os comprovantes por arquivos em PDF, sem servidor.</p></details>
+        <details><summary>O que acontece depois dos 30 dias?</summary><p>Para continuar usando, você assina o Pro. Seus dados continuam no aparelho.</p></details>
+        <details><summary>O cadastro pede meu WhatsApp?</summary><p>Sim, o número é obrigatório, com DDD. Sempre que você cria ou altera a senha, uma cópia dela vai para esse WhatsApp. No teste grátis a senha é opcional.</p></details>
+        <details><summary>Posso usar em condomínio de casas?</summary><p>Sim. A unidade pode ser apartamento, casa ou lote, e os locais de ronda, os espaços e as vistorias vêm do seu cadastro.</p></details>
+        <details><summary>Posso mudar as rotinas que já vêm no app?</summary><p>Pode. O síndico liga, desliga, cria e ajusta frequência e responsável em Rotinas › Gerenciar. Há ainda nove pacotes de checklists prontos para importar.</p></details>
+        <details><summary>O app emite boletos?</summary><p>Não. Os boletos continuam com a administradora. O app registra saldo, receitas, despesas, inadimplência e prestação de contas.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" style="padding-top:8px">
+    <div class="wrap">
+      <h2>Pronto para organizar a rotina do seu condomínio?</h2>
+      <div class="cta">
+        <a class="btn" href="https://app.sindicoezelador.com.br/">Instalar grátis por 30 dias</a>
+        <a class="btn pro" href="#planos">Ver o plano Pro</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="sticky-cta"><a class="btn" href="https://app.sindicoezelador.com.br/">Instalar grátis 30 dias</a><a class="btn pro" href="#planos">Plano Pro</a></div>
+
+<footer>
+  <div class="wrap">
+    <span>© Síndico e Zelador</span>
+    <span class="mono">sindicoezelador.com.br · versao_V1.03</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  /* galeria */
+  var SHOTS=[
+    ['zelador-inicio','zelador','Zelador','Início do zelador','Avisos do dia, encomendas paradas e chaves fora da portaria.'],
+    ['zelador-rotinas','zelador','Zelador','Rotinas do dia','Checklist por frequência: diárias, semanais, mensais e semestrais.'],
+    ['ronda-qr','zelador','Zelador','Ronda por QR code','Lê o QR de cada ponto e registra o horário da leitura.'],
+    ['plantao','zelador','Zelador','Passagem de plantão','Recados entre zelador, síndico e presidente, com “Li e ciente”.'],
+    ['estoque','gestao','Gestão','Estoque','Saldo com mínimo, botões de mais e menos e lista de compras.'],
+    ['sindico-inicio','sindico','Síndico','Início do síndico','Avisos de gestão, rotinas do dia e acompanhamento do zelador.'],
+    ['rotinas-sindico','sindico','Síndico','Rotinas do síndico','Minhas, do zelador ou todas, com progresso do dia.'],
+    ['tarefas','sindico','Síndico','Tarefas ao zelador','Prazo, prioridade e responsável; vencidas em destaque.'],
+    ['ocorrencias','sindico','Síndico','Ocorrências','Em aberto e resolvidas, com livro de ocorrências.'],
+    ['vistoria','sindico','Síndico','Vistoria presencial','Lê o QR do local e lista os locais com problemas recorrentes.'],
+    ['checklists','sindico','Síndico','Checklists','Rotinas de cada função com os itens de cada uma.'],
+    ['biblioteca','sindico','Síndico','Checklists prontos','Nove pacotes para importar, de piscina a mudança de morador.'],
+    ['ajustes','sindico','Síndico','Ajustes','Senhas por função, troca de módulo e sincronização entre aparelhos.'],
+    ['financeiro','gestao','Gestão','Financeiro','Saldo disponível, receitas, despesas e títulos por mês.'],
+    ['inadimplencia','gestao','Gestão','Inadimplência','Unidades em atraso, promessa de pagamento e aviso por WhatsApp.'],
+    ['multas','gestao','Gestão','Advertências e multas','Registro por unidade com notificação em PDF.'],
+    ['prestacao','gestao','Gestão','Prestação de contas','Resumo do mês para os moradores, em PDF ou texto.'],
+    ['vencimentos','gestao','Gestão','Documentos e vencimentos','Seguro, AVCB e laudos com data, renovação e arquivo anexado.'],
+    ['obrigacoes','gestao','Gestão','Obrigações e prazos','Lembretes trabalhistas e fiscais para marcar como feitos.'],
+    ['calendario','gestao','Gestão','Calendário anual','Os 12 meses com os compromissos e os atrasos do condomínio.'],
+    ['manutencao','gestao','Gestão','Manutenção preventiva','Itens atrasados e próximos, com registro da execução e custo.'],
+    ['equipamentos','gestao','Gestão','Equipamentos','Ficha com QR para cada equipamento: contrato, histórico e defeitos.'],
+    ['equipe','gestao','Gestão','Equipe e presença','Presente, atraso, falta ou folga, com PDF de presença do mês.'],
+    ['cotacoes','gestao','Gestão','Cotações','Peça orçamentos pelo WhatsApp e compare as propostas lado a lado.'],
+    ['fornecedores','gestao','Gestão','Fornecedores','Contatos por categoria, com WhatsApp, ligar e e-mail.'],
+    ['consumo','gestao','Gestão','Consumo','Água, energia e gás por período, com alerta quando sobe.'],
+    ['relatorios','gestao','Gestão','Relatórios','Relatório mensal, livro de ocorrências e relatório do dia em PDF.'],
+    ['encomendas','portaria','Portaria','Encomendas','Aguardando, paradas e retiradas, com aviso pelo WhatsApp.'],
+    ['chaves','portaria','Portaria','Chaves','Registra retirada e devolução e mostra o que está fora da portaria.'],
+    ['visitantes','portaria','Portaria','Visitantes e prestadores','Entrada e saída com relatório; documento é opcional.'],
+    ['obras','portaria','Portaria','Obras e prestadores','Obras e mudanças com data, responsável e autorização.'],
+    ['reservas','portaria','Moradores','Reservas de espaços','Calendário por espaço, com lista de espera.'],
+    ['reunioes','portaria','Moradores','Reuniões e atas','Assembleias agendadas e realizadas, com pauta e lista de presença.'],
+    ['comunicados','portaria','Moradores','Comunicados','Modelo pronto, WhatsApp em lote e e-mail para todos.'],
+    ['enquetes','portaria','Moradores','Enquetes','Pergunta simples, resposta anotada por unidade.'],
+    ['telefones','portaria','Emergência','Telefones úteis','Bombeiros, SAMU, polícia e concessionárias com botão Ligar.'],
+    ['moradores','portaria','Moradores','Moradores','Contato por WhatsApp e e-mail, regimento e estatuto anexados.']
+  ];
+  var ALT={zelador:'z',sindico:'',gestao:'',portaria:'g'};
+  var gal=document.getElementById('gal');
+  gal.innerHTML=SHOTS.map(function(s){
+    return '<figure data-g="'+s[1]+'"><div class="shot"><img src="img/'+s[0]+'.jpg" width="520" height="1069" loading="lazy" alt="Tela '+esc(s[3])+' do app"></div><figcaption><span class="tag '+ALT[s[1]]+'">'+esc(s[2])+'</span><b>'+esc(s[3])+'</b><span>'+esc(s[4])+'</span></figcaption></figure>';
+  }).join('');
+  var tabs=document.querySelectorAll('.tab');
+  tabs.forEach(function(b){b.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    var f=b.dataset.f;
+    gal.querySelectorAll('figure').forEach(function(fig){fig.hidden=!(f==='todas'||fig.dataset.g===f)});
+    gal.scrollLeft=0;
+  })});
+
+  /* rotinas por função (exemplos do condomínio de demonstração) */
+  var R={
+    sindico:{t:'Síndico',p:'Gestão, finanças e acompanhamento do zelador.',c:[
+      ['Diárias',['Atendimento e comunicação: condôminos, conselho e urgências','Alinhar as demandas do dia com o zelador e a administradora','Supervisão contratual: segurança, limpeza, portaria e manutenção']],
+      ['Semanais',['Revisar tarefas abertas e ocorrências com o zelador','Vistoria presencial: áreas comuns, casa de máquinas e equipe','Conferência da equipe: uniforme, EPI, escala e presença','Aprovação de pagamentos com a administradora','Cotação e compras: orçamentos de reparos, insumos e melhorias']],
+      ['Mensais',['Gestão de manutenção preventiva: elevadores, portões, gerador, bombas e para-raios','Prestação de contas: pasta contábil e balancetes','Acompanhamento orçamentário: inadimplência e despesas x previsão','Conferir vencimentos: AVCB, seguros e outros documentos']]
+    ]},
+    zelador:{t:'Zelador',p:'Rotina de campo, segurança e pequenos reparos.',c:[
+      ['Diárias',['Inspeção matinal (ronda por QR)','Verificar o funcionamento das bombas d’água','Supervisionar limpeza, conservação, portaria e vigilância','Gestão do lixo: coleta interna e horário da coleta pública','Atender moradores e encaminhar pequenos problemas','Controlar entrega de volumes grandes e entrada e saída de prestadores','Vistoria da brinquedoteca e da academia','Registrar o dia e passar recados ao síndico']],
+      ['Semanais',['Testar o gerador de energia','Testar bombas de recalque e de esgoto','Testar a iluminação de emergência','Segurança: corta-fogo, hidrantes, extintores e sinalização','Controle de estoque e pedido de reposição','Higienizar brinquedos e aparelhos; apertar parafusos e lubrificar']],
+      ['Mensais',['Acompanhar técnicos: elevadores, portões, interfonia e jardinagem','Conferir o kit de primeiros socorros: itens e validade','Revisar combate a incêndio: alarmes, saídas e orientação à equipe','Solicitar limpeza de fossas e caixa de gordura, se necessário','Registrar as manutenções feitas por prestadores: data, custo e comprovante','Relatório de avarias, manutenções e infrações para o síndico']],
+      ['Semestral, anual e sob demanda',['Limpeza de caixas d’água e análise de potabilidade, em abril e outubro','Recarga e inspeção dos extintores, em janeiro','Pequenos reparos: portões, lâmpadas do elevador, torneiras e fusíveis','Emergência: vazamento de água ou gás, falta de energia e outros']]
+    ]},
+    presidente:{t:'Presidente da associação',p:'Direção da associação, contas e assembleia.',c:[
+      ['Semanais',['Vistoria presencial dos locais, por QR','Acompanhar o relatório do dia, as ocorrências e as tarefas em aberto com o síndico','Ouvir e encaminhar sugestões e reclamações dos associados']],
+      ['Mensais',['Comunicado mensal aos associados','Conferir vencimentos de documentos, seguros e contratos','Acompanhar inadimplência e ações de cobrança','Conferir o balancete e a prestação de contas do mês','Reunião de diretoria e conselho']],
+      ['Semestral, anual e sob demanda',['Avaliar contratos e desempenho dos prestadores, em junho e dezembro','Assembleia Geral: convocar, definir a pauta e acompanhar a ata','Conferir mandato da diretoria e documentos da associação: estatuto, CNPJ e certidões','Aprovar compras e contratos acima do limite combinado']]
+    ]}
+  };
+  var rp=document.getElementById('rpanel'),rt=document.querySelectorAll('.rtab');
+  function showR(k){
+    var d=R[k];
+    rp.setAttribute('data-p',k);
+    rp.innerHTML='<h3>'+esc(d.t)+'</h3><p>'+esc(d.p)+'</p><div class="rcols">'+d.c.map(function(c){
+      return '<div class="rcol"><h4>'+esc(c[0])+'</h4><ul>'+c[1].map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>';
+    }).join('')+'</div>';
+    rt.forEach(function(b){b.setAttribute('aria-selected',b.dataset.p===k?'true':'false')});
+  }
+  rt.forEach(function(b){b.addEventListener('click',function(){showR(b.dataset.p)})});
+  showR('sindico');
+
+  /* ícones */
+  var I={
+    qr:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v7M14 20h3"/>',
+    chk:'<path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/>',
+    box:'<path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/>',
+    key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>',
+    bar:'<path d="M3 20h18M6 20V10M12 20V4M18 20v-7"/>',
+    cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+    clk:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    card:'<rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20M6 15h4"/>',
+    car:'<path d="M3 11h18v8H3zM6 11l2-5h8l2 5"/><circle cx="7.5" cy="15" r="1"/><circle cx="16.5" cy="15" r="1"/>',
+    wrench:'<path d="M14 7l3-3 3 3-3 3M17 7L8 16l-4 1 1-4 9-9"/>',
+    alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/>',
+    doc:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/>',
+    swap:'<path d="M7 7h12l-3-3M17 17H5l3 3"/>',
+    phone:'<path d="M5 4h4l2 5-3 2a11 11 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 6a2 2 0 012-2z"/>',
+    users:'<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M17 5a3 3 0 010 6M22 20c0-3-2-5-4-5"/>',
+    door:'<path d="M5 21V4h9v17M14 8h5v13M3 21h18"/><circle cx="11" cy="13" r=".8"/>',
+    vote:'<path d="M4 7h16v12H4zM8 7V4h8v3M9 13l2 2 4-4"/>',
+    tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.2"/>',
+    chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+    pool:'<path d="M2 18c3 0 3-2 6-2s3 2 6 2 3-2 6-2M2 13c3 0 3-2 6-2s3 2 6 2 3-2 6-2M8 11V5a2 2 0 014 0"/>',
+    party:'<path d="M4 20l5-14 10 10zM14 4v3M19 9h3M17 2l1 2"/>',
+    lift:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M12 3v18M9 10l-2 2 2 2M15 10l2 2-2 2"/>',
+    drop:'<path d="M12 3s6 6 6 11a6 6 0 01-12 0c0-5 6-11 6-11z"/>',
+    book:'<path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17a3 3 0 013-3h11"/>',
+    hammer:'<path d="M14 5l5 5-3 3-5-5zM11 8L4 15l3 3 7-7"/>',
+    move:'<path d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/>'
+  };
+  function ico(k){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+I[k]+'</svg>'}
+
+  var MOD=[
+    ['qr','Rondas por QR code','Cadastre os pontos, imprima um QR por ponto e o celular registra a leitura.'],
+    ['chk','Vistorias','Áreas comuns, casa de máquinas, brinquedoteca e academia, por dia, mês ou ano.'],
+    ['tag','Equipamentos com QR','Ficha de cada equipamento com contrato, histórico de manutenções e defeitos.'],
+    ['users','Equipe e presença','Presente, atraso, falta ou folga de cada funcionário, com PDF do mês.'],
+    ['swap','Passagem de plantão','Recado entre quem sai e quem entra, com confirmação de leitura e PDF.'],
+    ['cal','Calendário anual','Os 12 meses em uma tela, com compromissos e atrasos.'],
+    ['clk','Obrigações e vencimentos','Lembretes de prazos, renovação sugerida e arquivo anexado.'],
+    ['card','Financeiro','Saldo diário das contas, receitas, despesas e relatório de títulos.'],
+    ['alert','Inadimplência','Lista de unidades, promessa de pagamento e aviso por WhatsApp, sem boleto.'],
+    ['doc','Multas e advertências','Registro ligado à ocorrência e notificação em PDF.'],
+    ['bar','Prestação de contas','Resumo do mês para os moradores, em PDF ou texto para WhatsApp.'],
+    ['doc','Cotações','Peça orçamentos pelo WhatsApp e compare as propostas lado a lado.'],
+    ['box','Encomendas','O que chegou na portaria, o que está parado e quem retirou.'],
+    ['key','Chaves','Retirada e devolução, e o que está fora da portaria.'],
+    ['door','Visitantes e prestadores','Entrada e saída na portaria, com relatório.'],
+    ['wrench','Obras e manutenção','Obras, mudanças, prestadores e manutenção preventiva com prazo.'],
+    ['drop','Consumo','Água, energia e gás, com alerta quando o consumo sobe.'],
+    ['box','Estoque e compras','Saldo com mínimo e lista de compras gerada pelo que está faltando.'],
+    ['cal','Reservas de espaços','Calendário por espaço, lista de espera e capacidade máxima.'],
+    ['vote','Reuniões, atas e enquetes','Pauta, edital e lista de presença em PDF, e enquetes simples.'],
+    ['chat','Comunicados','Modelo pronto, WhatsApp em lote e e-mail para todos os moradores.'],
+    ['users','Moradores','WhatsApp e e-mail, regimento e estatuto anexados, veículos, vagas e pets.'],
+    ['phone','Telefones úteis','Emergência e concessionárias com botão Ligar.'],
+    ['book','Relatórios','Mensal, livro de ocorrências e relatório do dia, em PDF.']
+  ];
+  document.getElementById('grid').innerHTML=MOD.map(function(m){
+    return '<article class="card"><span class="ico">'+ico(m[0])+'</span><h3>'+esc(m[1])+'</h3><p>'+esc(m[2])+'</p></article>';
+  }).join('');
+
+  var PK=[['pool','Piscina'],['door','Portaria'],['party','Salão de festas'],['lift','Elevadores'],['car','Garagem'],['book','Fechamento do mês'],['move','Mudança de morador'],['hammer','Obra em unidade'],['drop','Reservatórios e caixas']];
+  document.getElementById('pack').innerHTML=PK.map(function(p){return '<span>'+ico(p[0])+esc(p[1])+'</span>'}).join('');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sindicoezelador.com.br/sitemap.xml
