@@ -1,0 +1,5 @@
+Site Síndico e Zelador - versao_V1.04
+Suba TUDO na raiz do repositório do GitHub Pages (SINDICO_ZELADOR_SITE), substituindo os arquivos antigos:
+index.html, og-image.jpg, favicon.svg, apple-touch-icon.png, sitemap.xml, robots.txt, .nojekyll, pasta img/ e pasta guias/.
+Mantenha o arquivo CNAME que já existe no repositório.
+Depois: Search Console > Sitemaps > reenviar sitemap.xml.
